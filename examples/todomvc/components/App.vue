@@ -1,29 +1,43 @@
 <style src="todomvc-app-css/index.css"></style>
 <style>
-.file-upload {border:1px solid red; float:right}
-</style>
+.add-todo .addfile {
+    display: block;
+	position: absolute;
+	top: 0;
+	right: 10px;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 30px;
+	color: #cc9a9a;
+	margin-bottom: 11px;
+	color: #af5b5e;
+}
+.todo-list li img {
+  margin-left: 50px;
+  margin-buttom: 50px;
+  width: 250px;
+}
 
+</style>
 <template>
   <section class="todoapp">
     <!-- header -->
-    <header class="header">
-
-        <input class="file-upload" id="fileUpload" type="file" multiple @change="addImage"/>
-        <div id="dvPreview"></div>
+    <header class="header add-todo">
       <h1>todos</h1>
-
       <input class="new-todo"
-        autofocus
-        autocomplete="off"
-        placeholder="What needs to be done?"
-        @keyup.enter="addTodo">
+             autofocus
+             autocomplete="off"
+             placeholder="What needs to be done?"
+             @keyup.enter="addTodo">
+      <input class="addfile" type="file" multiple @change="addImage"/>
     </header>
     <!-- main section -->
     <section class="main" v-show="todos.length">
       <input class="toggle-all"
-        type="checkbox"
-        :checked="allChecked"
-        @change="toggleAll({ done: !allChecked })">
+             type="checkbox"
+             :checked="allChecked"
+             @change="toggleAll({ done: !allChecked })">
       <ul class="todo-list">
         <todo v-for="todo in filteredTodos" :todo="todo"></todo>
       </ul>
@@ -37,13 +51,13 @@
       <ul class="filters">
         <li v-for="(val, key) in filters">
           <a :href="'#/' + key"
-            :class="{ selected: visibility === key }"
-            @click="visibility = key">{{ key | capitalize }}</a>
+             :class="{ selected: visibility === key }"
+             @click="visibility = key">{{ key | capitalize }}</a>
         </li>
       </ul>
       <button class="clear-completed"
-        v-show="todos.length > remaining"
-        @click="clearCompleted">
+              v-show="todos.length > remaining"
+              @click="clearCompleted">
         Clear completed
       </button>
     </footer>
@@ -53,7 +67,6 @@
 <script>
 import { mapMutations } from 'vuex'
 import Todo from './Todo.vue'
-
 
 const filters = {
   all: todos => todos,
@@ -102,22 +115,16 @@ export default {
         //Get count of selected files
          var input = e.target;
          var countFiles = input.files.length;
-
          var imgPath = input.value;
          var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
-
          var _this = this;
-
          function dispImg (src) {
             _this.disp(src);
          }
-
          if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
              if (typeof (FileReader) != "undefined") {
-
                  //loop for each file selected for uploaded.
                  for (var i = 0; i < countFiles; i++) {
-
                      var reader = new FileReader();
                      reader.onload = function (e) {
                         var src = e.target.result;
@@ -129,11 +136,9 @@ export default {
                          }).appendTo(image_holder);
                          */
                      }
-
                      //image_holder.show();
                      reader.readAsDataURL(input.files[i]);
                  }
-
              } else {
                  alert("This browser does not support FileReader.");
              }

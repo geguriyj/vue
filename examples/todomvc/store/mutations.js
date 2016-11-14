@@ -28,7 +28,7 @@ export const mutations = {
 
     _initData.forEach(_initData => {
       Vue.set(state.todos, _initData.id, {text: _initData.text, done: _initData.done, src: _initData.src})
-    })
+  })
 
     // var Vue = require('vue');
     // var VueResource = require('vue-resource');
@@ -68,7 +68,7 @@ export const mutations = {
   toggleAll (state, { done }) {
     state.todos.forEach((todo) => {
       todo.done = done
-    })
+  })
   },
 
   clearCompleted (state) {
