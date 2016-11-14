@@ -1,10 +1,17 @@
 <style src="todomvc-app-css/index.css"></style>
+<style>
+.file-upload {border:1px solid red; float:right}
+</style>
 
 <template>
   <section class="todoapp">
     <!-- header -->
     <header class="header">
+
+        <input class="file-upload" id="fileUpload" type="file" multiple @change="addImage"/>
+        <div id="dvPreview"></div>
       <h1>todos</h1>
+
       <input class="new-todo"
         autofocus
         autocomplete="off"
@@ -47,6 +54,7 @@
 import { mapMutations } from 'vuex'
 import Todo from './Todo.vue'
 
+
 const filters = {
   all: todos => todos,
   active: todos => todos.filter(todo => !todo.done),
@@ -61,11 +69,9 @@ export default {
       filters: filters
     }
   },
-
   created () {
     this.$store.commit('getTodo')
   },
-
   computed: {
     todos () {
       return this.$store.state.todos
@@ -88,6 +94,53 @@ export default {
       }
       e.target.value = ''
     },
+    disp (src) {
+        this.$store.commit('displayImage', { src })
+    },
+    addImage (e) {
+
+        //Get count of selected files
+         var input = e.target;
+         var countFiles = input.files.length;
+
+         var imgPath = input.value;
+         var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+
+         var _this = this;
+
+         function dispImg (src) {
+            _this.disp(src);
+         }
+
+         if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+             if (typeof (FileReader) != "undefined") {
+
+                 //loop for each file selected for uploaded.
+                 for (var i = 0; i < countFiles; i++) {
+
+                     var reader = new FileReader();
+                     reader.onload = function (e) {
+                        var src = e.target.result;
+                        dispImg(src);
+                     /*
+                         $("<img />", {
+                             "src": e.target.result,
+                                 "class": "thumb-image"
+                         }).appendTo(image_holder);
+                         */
+                     }
+
+                     //image_holder.show();
+                     reader.readAsDataURL(input.files[i]);
+                 }
+
+             } else {
+                 alert("This browser does not support FileReader.");
+             }
+         } else {
+             alert("Pls select only images");
+         }
+    },
     ...mapMutations([
       'toggleAll',
       'clearCompleted'
@@ -98,6 +151,4 @@ export default {
     capitalize: s => s.charAt(0).toUpperCase() + s.slice(1)
   }
 }
-
-
 </script>

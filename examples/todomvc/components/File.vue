@@ -1,15 +1,6 @@
 <template>
-  <li class="todo" :class="{ completed: todo.done, editing: editing }">
-    <div class="view">
-      <input class="toggle"
-        type="checkbox"
-        :checked="todo.done"
-        @change="toggleTodo({ todo: todo })">
-      <label v-text="todo.text" @dblclick="editing = true"></label>
-      <img :src="todo.src"/>
-      <button class="destroy" @click="deleteTodo({ todo: todo })"></button>
-    </div>
-    <input class="edit"
+  <div class="todo" :class="{ completed: todo.done, editing: editing }">
+    <img class="edit"
       v-show="editing"
       v-focus="editing"
       :value="todo.text"

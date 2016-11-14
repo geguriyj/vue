@@ -17,33 +17,18 @@ export const state = {
 
 export const mutations = {
 
-  addTodo (state, { text }) {
-
+  displayImage (state, { src }) {
     state.todos.push({
-      text,
+      src,
       done: false
     })
-
   },
-
-  getTodo : function(state){
-
-    var _initData = [{text:"aa1",id:0},{text:"bb1",id:1}];
+  getTodo (state) {
+    var _initData = [{text: "빨강", id: 0, done: true, src: ""}, {text: "파랑", id: 1, done: false, src: ""}];
 
     _initData.forEach(_initData => {
-      Vue.set(state.todos, _initData.id, {text: _initData.text})
+      Vue.set(state.todos, _initData.id, {text: _initData.text, done: _initData.done, src: _initData.src})
     })
-
-
-    // state.todos.push({
-    //   text :'감자',
-    //   done: false
-    // })
-    // state.todos.push({
-    //   text :'고구마',
-    //   done: false
-    // })
-
 
     // var Vue = require('vue');
     // var VueResource = require('vue-resource');
@@ -52,19 +37,24 @@ export const mutations = {
     // // POST /someUrl
     // Vue.http.get('/list', {formId : "a001"}).then((response) => {
     //
-    //   // this.addTodo('addTodo', '감자');
-    //   // this.addTodo('addTodo', '고구마');
-    //   // this.addTodo('addTodo', '호박');
+    //   response.forEach(_initData => {
+    //     Vue.set(state.todos, _initData.id, {text: _initData.text})
+    //   })
     //
     // }, (response) => {
     //   // error callback
     // })
   },
 
+  addTodo (state, { text }) {
+    state.todos.push({
+      text,
+      done: false
+    })
+  },
+
   deleteTodo (state, { todo }) {
-
     state.todos.splice(state.todos.indexOf(todo), 1)
-
   },
 
   toggleTodo (state, { todo }) {
